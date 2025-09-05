@@ -4,6 +4,8 @@
  */
 package co.edu.sena.orderapi.service;
 
+import co.edu.sena.orderapi.exception.BadRequestException;
+import co.edu.sena.orderapi.exception.ModelNotFoundException;
 import co.edu.sena.orderapi.model.Causal;
 import co.edu.sena.orderapi.repository.CausalRepository;
 import java.util.List;
@@ -21,21 +23,27 @@ public class CausalService implements ICausalService{
     @Autowired
     private CausalRepository causalRepository;
     
+    /**
+     * valida los datos de la causal. Si update es true entonces validará el id(autoinc)
+     * @param causal
+     * @param update
+     * @throws Exception 
+     */
     public void validate(Causal causal, boolean update) throws Exception
     {
         if(causal == null)
         {
-            throw new Exception("La causal está vacía");
+            throw new BadRequestException("La causal está vacía");
         }
 
-        if(update && causal.getId() == 0)        
+        if(update && causal.getId() == null)        
         {
-            throw new Exception("El Id es obligatorio");
+            throw new BadRequestException("El Id es obligatorio");
         }
 
         if(causal.getDescription().isEmpty())
         {
-            throw new Exception("El nombre es obligatorio");
+            throw new BadRequestException("La descripción es obligatoria");
         }
     }
     
@@ -51,7 +59,7 @@ public class CausalService implements ICausalService{
         Optional<Causal> oldCausal = causalRepository.findById(causal.getId());
         if(!oldCausal.isPresent())
         {
-            throw new Exception("No existe la causal");
+            throw new ModelNotFoundException("No existe la causal");
         }
         causalRepository.save(causal);
     }
@@ -66,7 +74,7 @@ public class CausalService implements ICausalService{
         Optional<Causal> oldCausal = causalRepository.findById(id);
         if(!oldCausal.isPresent())
         {
-            throw new Exception("No existe la causal");
+            throw new ModelNotFoundException("No existe la causal");
         }
         causalRepository.deleteById(id);
     }
@@ -75,7 +83,7 @@ public class CausalService implements ICausalService{
     public Causal findById(Long id) throws Exception {
         if(id == 0)
         {
-            throw new Exception("El id es obligatorio");
+            throw new ModelNotFoundException("El id es obligatorio");
         }
         
         return causalRepository.findById(id).orElse(null);
