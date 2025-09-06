@@ -5,7 +5,6 @@
 package co.edu.sena.orderapi.model;
 
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,12 +12,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -50,8 +47,6 @@ public class Role implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
-    private Collection<Users> usersCollection;
 
     public Role() {
     }
@@ -97,13 +92,6 @@ public class Role implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Collection<Users> getUsersCollection() {
-        return usersCollection;
-    }
-
-    public void setUsersCollection(Collection<Users> usersCollection) {
-        this.usersCollection = usersCollection;
-    }
 
     @Override
     public int hashCode() {
