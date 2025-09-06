@@ -13,6 +13,5 @@ import org.springframework.stereotype.Repository;
  * @author sena
  */
 @Repository
-public interface ActivityRepository extends JpaRepository<Activity, Long>{
-    
+public interface ActivityRepository extends JpaRepository<Activity, Long>{    
 }

@@ -5,7 +5,6 @@
 package co.edu.sena.orderapi.model;
 
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,12 +14,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -67,8 +64,7 @@ public class Orders implements Serializable {
     @JoinColumn(name = "observation_id", referencedColumnName = "id")
     @ManyToOne
     private Observation observationId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ordersId")
-    private Collection<OrdersActivity> ordersActivityCollection;
+    
 
     public Orders() {
     }
@@ -148,13 +144,6 @@ public class Orders implements Serializable {
         this.observationId = observationId;
     }
 
-    public Collection<OrdersActivity> getOrdersActivityCollection() {
-        return ordersActivityCollection;
-    }
-
-    public void setOrdersActivityCollection(Collection<OrdersActivity> ordersActivityCollection) {
-        this.ordersActivityCollection = ordersActivityCollection;
-    }
 
     @Override
     public int hashCode() {
